@@ -1,5 +1,7 @@
 <Alloy>
 	<Window class="container">
-		<Require type="view" src="entryView" id="entryView"/>
+		<ImageView id="coverart"/>
+		<Label id="artist"/>
+		<Label id="linernotes"/>
 	</Window>
 </Alloy>
