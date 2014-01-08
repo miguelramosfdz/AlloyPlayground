@@ -1,5 +1,5 @@
 <Alloy>
 	<Window class="container">
-		<Widget src="com.svobik.InfiniteList" id="ilist"/>
+		<Widget src="com.svobik.InfiniteList" id="ilist" />
 	</Window>
 </Alloy>

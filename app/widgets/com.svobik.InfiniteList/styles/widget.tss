@@ -27,35 +27,4 @@
  */
 "#pvView[platform=android]": {
 	backgroundColor: 'red',
-},
-"#pvActivityIndicator": {
-	left: 35, 
-	bottom: 15,
-    width: 30,
-    height: 30
-},
-"#pvImage": {
-    left: 35,
-    bottom: 5,
-    image: WPATH('images/arrow.png'),
-    height: 60,
-    width: 23,
-},
-"#pvMessage": {
-    color: '#fff',
-    font: {
-    	fontSize: 12, 
-    	fontWeight: 'bold',
-   	},
-    text: 'Pull down to refresh...',
-    textAlign: 'center',
-    bottom: 30,
-},
-"#pvTimestamp": {
-    color: '#fff',
-    font: {
-    	fontSize: 11
-	},
-    textAlign: 'center',
-    bottom: 15,
 }
