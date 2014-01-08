@@ -1,0 +1,10 @@
+<resources>
+    <string name="pvPullMessage">Pull down to refresh</string>
+    <string name="pvPulledMessage">Release to refresh</string>
+    <string name="pvLoadingMessage">Loading new content...</string>
+    <string name="pvTimestamp">Last updated: %s</string>
+	<!--
+    <string name="format_test">Your name is %s</string>
+    <string name="ordered">Hi %1$s, my name is %2$s</string>
+   -->
+</resources>

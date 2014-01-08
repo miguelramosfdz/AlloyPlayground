@@ -1,0 +1,61 @@
+/**
+ * 	Globals
+ */
+"Label": {
+	color: '#000',
+	height: Ti.UI.SIZE,
+	width: Ti.UI.SIZE,	
+},
+/**
+ * 	ListItem
+ */
+"#heading": {
+	top: 5,
+	font: {
+		fontSize: 18,
+		fontWeight: 'bold'
+	},
+},
+"#excerpt": {
+	top: 35,
+	font: {
+		fontSize: 12,
+	},	
+},
+/** 
+ * 	PullView 
+ */
+"#pvView[platform=android]": {
+	backgroungColor: 'red',
+},
+"#pvActivityIndicator": {
+	left: 35, 
+	bottom: 15,
+    width: 30,
+    height: 30
+},
+"#pvImage": {
+    left: 35,
+    bottom: 5,
+    image: WPATH('images/arrow.png'),
+    height: 60,
+    width: 23,
+},
+"#pvMessage": {
+    color: '#fff',
+    font: {
+    	fontSize: 12, 
+    	fontWeight: 'bold',
+   	},
+    text: 'Pull down to refresh...',
+    textAlign: 'center',
+    bottom: 30,
+},
+"#pvTimestamp": {
+    color: '#fff',
+    font: {
+    	fontSize: 11
+	},
+    textAlign: 'center',
+    bottom: 15,
+}
