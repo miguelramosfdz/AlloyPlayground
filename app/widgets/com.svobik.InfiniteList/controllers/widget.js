@@ -4,10 +4,10 @@ var moment = require('alloy/moment');
  * Widget options
  */
 var options = {
-	pullMsg: L('pvPullMessage', 'Pull to refresh'),
-	pulledMsg: L('pvPulledMessage', 'Release to refresh'),
-	loadingMsg: L('pvLoadingMessage', 'Loading new content...'),
-	inProgress: false,
+	pullMsg : L('pvPullMessage', 'Pull to refresh'),
+	pulledMsg : L('pvPulledMessage', 'Release to refresh'),
+	loadingMsg : L('pvLoadingMessage', 'Loading new content...'),
+	inProgress : false,
 };
 
 /**
@@ -26,7 +26,7 @@ function getPullViewMessage(pulled) {
 		return options.pulledMsg;
 	}
 
-	return options.pullMsg; 
+	return options.pullMsg;
 }
 
 /**
@@ -164,11 +164,11 @@ function createListView(_data) {
  * Creates PullView
  */
 function createPullView() {
-	
-	if(OS_ANDROID) {
-		
+
+	if (OS_ANDROID) {
+
 	}
-	
+
 	$.pvMessage.text = getPullViewMessage();
 	$.pvTimestamp.text = getPullViewTimestamp();
 }
@@ -177,8 +177,18 @@ function createPullView() {
  * Inits widget
  */
 function init() {
-	$.listView.addEventListener('pull', pullListener);
-	$.listView.addEventListener('pullend', pullendListener);
+
+	if (OS_IOS) {
+		$.listView.addEventListener('pull', pullListener);
+		$.listView.addEventListener('pullend', pullendListener);
+
+	} else {
+
+		$.listView.top = 0 - $.pvView.height;
+
+		//$.listView.addEventListener('swipe', swipeListener);
+	}
+
 	$.listView.addEventListener('itemclick', function(e) {
 		doListItemClick(e);
 	});
