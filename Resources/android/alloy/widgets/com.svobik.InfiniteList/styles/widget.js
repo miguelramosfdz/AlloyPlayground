@@ -86,6 +86,6 @@ module.exports = [ {
     priority: 100101.0005,
     key: "pvView",
     style: {
-        backgroungColor: "red"
+        backgroundColor: "red"
     }
 } ];

@@ -1,4 +1,14 @@
-var moment = require('alloy/moment'), inProgress = false;
+var moment = require('alloy/moment');
+
+/**
+ * Widget options
+ */
+var options = {
+	pullMsg: L('pvPullMessage', 'Pull to refresh'),
+	pulledMsg: L('pvPulledMessage', 'Release to refresh'),
+	loadingMsg: L('pvLoadingMessage', 'Loading new content...'),
+	inProgress: false,
+};
 
 /**
  * Retrieves current formatted date
@@ -13,10 +23,10 @@ function getFormattedDate() {
 function getPullViewMessage(pulled) {
 
 	if (pulled) {
-		return L('pvPulledMessage');
+		return options.pulledMsg;
 	}
 
-	return L('pvPullMessage');
+	return options.pullMsg; 
 }
 
 /**
@@ -73,7 +83,7 @@ function resetPullView() {
 		animated : true
 	});
 
-	inProgress = false;
+	options.inProgress = false;
 }
 
 /**
@@ -81,7 +91,7 @@ function resetPullView() {
  */
 function pullListener(e) {
 
-	if (false === inProgress) {
+	if (false === options.inProgress) {
 
 		if (e.active == false) {
 			var rotation = Ti.UI.create2DMatrix();
@@ -103,16 +113,15 @@ function pullListener(e) {
  */
 function pullendListener() {
 
-	if (false === inProgress) {
+	if (false === options.inProgress) {
 
-		inProgress = true;
+		options.inProgress = true;
 
 		$.pvImage.hide();
 
 		$.pvActivityIndicator.show();
 
-		$.pvMessage.text = L('pvLoadingMessage');
-		;
+		$.pvMessage.text = options.loadingMsg;
 
 		$.listView.setContentInsets({
 			top : 65,

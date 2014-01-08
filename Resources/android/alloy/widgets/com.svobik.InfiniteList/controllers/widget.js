@@ -111,7 +111,7 @@ function Controller() {
     var $ = this;
     var exports = {};
     $.__views.pvView = Ti.UI.createView({
-        backgroungColor: "red",
+        backgroundColor: "red",
         id: "pvView",
         height: Ti.UI.SIZE
     });
