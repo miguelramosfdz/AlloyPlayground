@@ -8,6 +8,7 @@ var options = {
 	inProgress : false,
 	onRefresh : null,
 	element : null,
+	isReady : false,
 };
 
 /**
@@ -106,16 +107,14 @@ function createRefreshView() {
 function refresh() {
 	try {
 
-		return options.onRefresh();
+		return options.onRefresh(reset);
 
 	} catch(err) {
 
 		alert('Loading error!');
-
-	} finally {
-
 		reset();
-	}
+
+	} 
 }
 
 /**
@@ -141,18 +140,35 @@ function reset() {
 }
 
 /**
+ * Cancels event listeners so memory can be released
+ */
+function cancel() {
+
+	if (true === isReady) {
+
+		options.element.removeEventListener('pull');
+		options.element.removeEventListener('pullend');
+	}
+}
+
+/**
  * Inits refresh view
  */
 function init(_options) {
 
-	_.extend(options, _options);
+	if (false === isReady) {
 
-	if (false !== options.element) {
+		_.extend(options, _options);
 
-		options.element.addEventListener('pull', pullListener);
-		options.element.addEventListener('pullend', pullendListener);
+		if (false !== options.element) {
 
-		options.element.setPullView(createRefreshView());
+			options.element.addEventListener('pull', pullListener);
+			options.element.addEventListener('pullend', pullendListener);
+
+			options.element.setPullView(createRefreshView());
+
+			isReady = true;
+		}
 	}
 }
 
@@ -160,3 +176,4 @@ function init(_options) {
  * Public functions
  */
 exports.init = init;
+exports.cancel = cancel;

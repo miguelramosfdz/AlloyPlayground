@@ -11,18 +11,17 @@ var options = {
 /**
  * Default load next
  */
-function doLoadNext() {
+function doLoadNext(callback) {
 	alert('Loaded');
-	return true;
+	callback();
 }
 
 /**
  * Default refresh
  */
-function doRefresh() {
-	
+function doRefresh(callback) {
 	alert('Refreshed');
-	return true;
+	callbcak();
 }
 
 /**
