@@ -56,12 +56,12 @@ function pullListener(e) {
 			var rotation = Ti.UI.create2DMatrix().rotate(180);
 		}
 
-		$.rfImage.animate({
+		$.hvImage.animate({
 			transform : rotation,
 			duration : 180
 		});
 
-		$.rfMessage.text = getMessage(e.active);
+		$.hvMessage.text = getMessage(e.active);
 	}
 }
 
@@ -74,11 +74,11 @@ function pullendListener() {
 
 		options.inProgress = true;
 
-		$.rfImage.hide();
+		$.hvImage.hide();
 
-		$.rfActivityIndicator.show();
+		$.hvActivityIndicator.show();
 
-		$.rfMessage.text = options.loadingMsg;
+		$.hvMessage.text = options.loadingMsg;
 
 		options.element.setContentInsets({
 			top : 65,
@@ -95,8 +95,8 @@ function pullendListener() {
  */
 function createRefreshView() {
 
-	$.rfMessage.text = getMessage();
-	$.rfTimestamp.text = getTimestamp();
+	$.hvMessage.text = getMessage();
+	$.hvTimestamp.text = getTimestamp();
 
 	return $.getView();
 }
@@ -122,13 +122,13 @@ function refresh() {
  */
 function reset() {
 
-	$.rfActivityIndicator.hide();
+	$.hvActivityIndicator.hide();
 
-	$.rfImage.transform = Ti.UI.create2DMatrix();
-	$.rfImage.show();
+	$.hvImage.transform = Ti.UI.create2DMatrix();
+	$.hvImage.show();
 
-	$.rfMessage.text = getMessage(false);
-	$.rfTimestamp.text = getTimestamp();
+	$.hvMessage.text = getMessage(false);
+	$.hvTimestamp.text = getTimestamp();
 
 	options.element.setContentInsets({
 		top : 0
@@ -154,7 +154,7 @@ function cancel() {
 }
 
 /**
- * Inits refresh view
+ * Inits header view
  */
 function init(_options) {
 

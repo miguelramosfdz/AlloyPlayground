@@ -14,6 +14,6 @@
 		<!-- Sets ListView's section -->
 		<ListSection id="listSection" />
 		<!-- Sets ListView's FooterView property -->
-		<FooterView id="footer"/>
+		<FooterView id="footer" />
 	</ListView>
 </Alloy>

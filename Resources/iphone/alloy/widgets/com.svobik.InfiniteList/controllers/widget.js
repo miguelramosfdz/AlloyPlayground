@@ -7,7 +7,19 @@ function WPATH(s) {
 function Controller() {
     function doLoadNext(callback) {
         setTimeout(function() {
-            alert("Loaded");
+            var items = [];
+            for (var i = 0; _data > i; i++) {
+                var item = {
+                    heading: {
+                        text: "Heading " + i
+                    },
+                    excerpt: {
+                        text: "This is short excerpt #" + i
+                    }
+                };
+                items.push(item);
+            }
+            $.listSection.addItems(items);
             callback();
         }, 2500);
     }
@@ -33,8 +45,8 @@ function Controller() {
         $.listSection.setItems(items);
     }
     function init() {
-        var refreshController = Widget.createController("refresh");
-        refreshController.init({
+        var headerController = Widget.createController("header");
+        headerController.init({
             element: $.listView,
             onRefresh: options.onRefresh
         });
@@ -99,6 +111,7 @@ function Controller() {
         sections: __alloyId7,
         templates: __alloyId0,
         pullView: void 0,
+        footerView: void 0,
         id: "listView",
         defaultItemTemplate: "defaultTemplate"
     });

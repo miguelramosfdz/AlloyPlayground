@@ -1,8 +1,8 @@
 <Alloy>
-	<View id="rfView" height="Ti.UI.SIZE">
-		<ActivityIndicator id="rfActivityIndicator" />
-		<ImageView id="rfImage" />
-		<Label id="rfMessage" />
-		<Label id="rfTimestamp" />
+	<View id="headerView" height="Ti.UI.SIZE">
+		<ActivityIndicator id="hvActivityIndicator" />
+		<ImageView id="hvImage" />
+		<Label id="hvMessage" />
+		<Label id="hvTimestamp" />
 	</View>
 </Alloy>
