@@ -107,14 +107,14 @@ function createRefreshView() {
 function refresh() {
 	try {
 
-		return options.onRefresh(reset);
+		options.onRefresh(reset);
 
 	} catch(err) {
 
-		alert('Loading error!');
+		alert('Loading error! ' + err);
 		reset();
 
-	} 
+	}
 }
 
 /**
@@ -144,10 +144,12 @@ function reset() {
  */
 function cancel() {
 
-	if (true === isReady) {
+	if (true === options.isReady) {
 
 		options.element.removeEventListener('pull');
 		options.element.removeEventListener('pullend');
+
+		options.isReady = false;
 	}
 }
 
@@ -156,7 +158,7 @@ function cancel() {
  */
 function init(_options) {
 
-	if (false === isReady) {
+	if (false === options.isReady) {
 
 		_.extend(options, _options);
 
@@ -167,7 +169,7 @@ function init(_options) {
 
 			options.element.setPullView(createRefreshView());
 
-			isReady = true;
+			options.isReady = true;
 		}
 	}
 }
@@ -176,4 +178,4 @@ function init(_options) {
  * Public functions
  */
 exports.init = init;
-exports.cancel = cancel;
+exports.cancel = cancel; 

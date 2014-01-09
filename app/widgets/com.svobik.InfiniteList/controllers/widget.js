@@ -12,16 +12,20 @@ var options = {
  * Default load next
  */
 function doLoadNext(callback) {
-	alert('Loaded');
-	callback();
+	setTimeout(function() {
+		alert('Loaded');
+		callback();
+	}, 2500);
 }
 
 /**
  * Default refresh
  */
 function doRefresh(callback) {
-	alert('Refreshed');
-	callbcak();
+	setTimeout(function() {
+		alert('Refreshed');
+		callback();
+	}, 2500);
 }
 
 /**

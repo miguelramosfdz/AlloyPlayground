@@ -5,13 +5,17 @@ function WPATH(s) {
 }
 
 function Controller() {
-    function doLoadNext() {
-        alert("Loaded");
-        return true;
+    function doLoadNext(callback) {
+        setTimeout(function() {
+            alert("Loaded");
+            callback();
+        }, 2500);
     }
-    function doRefresh() {
-        alert("Refreshed");
-        return true;
+    function doRefresh(callback) {
+        setTimeout(function() {
+            alert("Refreshed");
+            callback();
+        }, 2500);
     }
     function createListView(_data) {
         var items = [];

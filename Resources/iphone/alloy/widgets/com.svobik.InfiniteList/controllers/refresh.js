@@ -46,10 +46,9 @@ function Controller() {
     }
     function refresh() {
         try {
-            return options.onRefresh();
+            options.onRefresh(reset);
         } catch (err) {
-            alert("Loading error!");
-        } finally {
+            alert("Loading error! " + err);
             reset();
         }
     }
@@ -66,12 +65,22 @@ function Controller() {
         });
         options.inProgress = false;
     }
+    function cancel() {
+        if (true === options.isReady) {
+            options.element.removeEventListener("pull");
+            options.element.removeEventListener("pullend");
+            options.isReady = false;
+        }
+    }
     function init(_options) {
-        _.extend(options, _options);
-        if (false !== options.element) {
-            options.element.addEventListener("pull", pullListener);
-            options.element.addEventListener("pullend", pullendListener);
-            options.element.setPullView(createRefreshView());
+        if (false === options.isReady) {
+            _.extend(options, _options);
+            if (false !== options.element) {
+                options.element.addEventListener("pull", pullListener);
+                options.element.addEventListener("pullend", pullendListener);
+                options.element.setPullView(createRefreshView());
+                options.isReady = true;
+            }
         }
     }
     new (require("alloy/widget"))("com.svobik.InfiniteList");
@@ -135,10 +144,12 @@ function Controller() {
         loadingMsg: L("pvLoadingMessage", "Loading new content..."),
         inProgress: false,
         onRefresh: null,
-        element: null
+        element: null,
+        isReady: false
     };
     var moment = require("alloy/moment");
     exports.init = init;
+    exports.cancel = cancel;
     _.extend($, exports);
 }
 
