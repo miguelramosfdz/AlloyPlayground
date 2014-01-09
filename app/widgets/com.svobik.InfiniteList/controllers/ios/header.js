@@ -1,5 +1,5 @@
 /**
- * Refresh options
+ * Header options
  */
 var options = {
 	pullMsg : L('pvPullMessage', 'Pull to refresh'),
@@ -7,8 +7,8 @@ var options = {
 	loadingMsg : L('pvLoadingMessage', 'Loading new content...'),
 	inProgress : false,
 	onRefresh : null,
-	element : null,
 	isReady : false,
+	element : null,
 };
 
 /**
@@ -178,4 +178,4 @@ function init(_options) {
  * Public functions
  */
 exports.init = init;
-exports.cancel = cancel; 
+exports.cancel = cancel;

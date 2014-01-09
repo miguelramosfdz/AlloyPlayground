@@ -1,6 +1,5 @@
 <Alloy>
 	<ListView id="listView" defaultItemTemplate="defaultTemplate">
-
 		<!-- Defines item template -->
 		<Templates>
 			<ItemTemplate name="defaultTemplate" height="60">
@@ -8,21 +7,13 @@
 				<Label bindId="excerpt" id="excerpt"/>
 			</ItemTemplate>
 		</Templates>
-
 		<!-- Sets ListView's PullView property only for iOS platform -->
-		<PullView id="refresh" platform="ios"></PullView>
-
+		<PullView id="header" platform="ios" />
 		<!-- Sets ListView's HeaderView property only for Android platform -->
-		<HeaderView platform="android">
-			<View id="pvView" height="Ti.UI.SIZE">
-				<ActivityIndicator id="pvActivityIndicator" />
-				<ImageView id="pvImage" />
-				<Label id="pvMessage" />
-				<Label id="pvTimestamp" />
-			</View>
-		</HeaderView>
-
+		<HeaderView id="header" platform="android" />
 		<!-- Sets ListView's section -->
-		<ListSection id="listSection"></ListSection>
+		<ListSection id="listSection" />
+		<!-- Sets ListView's FooterView property -->
+		<FooterView id="footer"/>
 	</ListView>
 </Alloy>

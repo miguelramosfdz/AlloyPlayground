@@ -13,7 +13,25 @@ var options = {
  */
 function doLoadNext(callback) {
 	setTimeout(function() {
-		alert('Loaded');
+		// ListView items stack
+		var items = [];
+
+		for (var i = 0; i < _data; i++) {
+			var item = {
+				heading : {
+					text : 'Heading ' + i
+				},
+				excerpt : {
+					text : 'This is short excerpt #' + i
+				},
+			};
+
+			items.push(item);
+		};
+
+		// Sets list section items
+		$.listSection.addItems(items);
+
 		callback();
 	}, 2500);
 }
@@ -58,14 +76,23 @@ function createListView(_data) {
  */
 function init() {
 
-	var refreshController = Widget.createController('refresh');
+	var headerController = Widget.createController('header');
 
-	refreshController.init({
+	headerController.init({
 		element : $.listView,
 		onRefresh : options.onRefresh,
 	});
 
 	createListView(20);
+
+	/*
+	var footerController = Widget.createController('footer');
+
+	footerController.init({
+		element : $.listView,
+		onLoadNext : options.onLoadNext,
+	});
+	*/
 }
 
 init();
