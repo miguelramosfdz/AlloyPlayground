@@ -12,6 +12,22 @@ var options = {
 };
 
 /**
+ * Creates footer view
+ */
+function createFooterView() {
+	$.fvMessage.text = 'Load next...';
+	
+	return $.getView();
+}
+
+/**
+ * Cancels footer view initialization
+ */
+function cancel() {
+	
+}
+
+/**
  * Inits refresh view
  */
 function init(_options) {
@@ -22,10 +38,10 @@ function init(_options) {
 
 		if (false !== options.element) {
 
-			options.element.addEventListener('pull', pullListener);
-			options.element.addEventListener('pullend', pullendListener);
+			//options.element.addEventListener('pull', pullListener);
+			//options.element.addEventListener('pullend', pullendListener);
 
-			options.element.setPullView(createRefreshView());
+			options.element.setFooterView(createFooterView());
 
 			options.isReady = true;
 		}

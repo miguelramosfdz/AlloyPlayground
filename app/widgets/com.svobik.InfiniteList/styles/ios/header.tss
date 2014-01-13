@@ -1,3 +1,6 @@
+"#headerView": {
+	backgroundColor: 'red',
+},
 "#hvActivityIndicator": {
 	left: 35, 
 	bottom: 15,

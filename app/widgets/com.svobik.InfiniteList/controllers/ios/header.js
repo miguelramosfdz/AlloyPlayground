@@ -91,9 +91,9 @@ function pullendListener() {
 }
 
 /**
- * Creates refresh view
+ * Creates header view
  */
-function createRefreshView() {
+function createHeaderView() {
 
 	$.hvMessage.text = getMessage();
 	$.hvTimestamp.text = getTimestamp();
@@ -167,7 +167,7 @@ function init(_options) {
 			options.element.addEventListener('pull', pullListener);
 			options.element.addEventListener('pullend', pullendListener);
 
-			options.element.setPullView(createRefreshView());
+			options.element.setPullView(createHeaderView());
 
 			options.isReady = true;
 		}

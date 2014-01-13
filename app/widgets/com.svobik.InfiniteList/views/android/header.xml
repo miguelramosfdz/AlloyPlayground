@@ -1,0 +1,8 @@
+<Alloy>
+	<View id="headerView" height="Ti.UI.SIZE">
+		<ActivityIndicator id="hvActivityIndicator" />
+		<ImageView id="hvImage" />
+		<Label id="hvMessage" />
+		<Label id="hvTimestamp" />
+	</View>
+</Alloy>

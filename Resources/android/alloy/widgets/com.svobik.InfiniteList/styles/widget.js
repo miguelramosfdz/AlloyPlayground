@@ -36,53 +36,6 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100000.0006,
-    key: "pvActivityIndicator",
-    style: {
-        left: 35,
-        bottom: 15,
-        width: 30,
-        height: 30
-    }
-}, {
-    isId: true,
-    priority: 100000.0007,
-    key: "pvImage",
-    style: {
-        left: 35,
-        bottom: 5,
-        image: WPATH("images/arrow.png"),
-        height: 60,
-        width: 23
-    }
-}, {
-    isId: true,
-    priority: 100000.0008,
-    key: "pvMessage",
-    style: {
-        color: "#fff",
-        font: {
-            fontSize: 12,
-            fontWeight: "bold"
-        },
-        text: "Pull down to refresh...",
-        textAlign: "center",
-        bottom: 30
-    }
-}, {
-    isId: true,
-    priority: 100000.0009,
-    key: "pvTimestamp",
-    style: {
-        color: "#fff",
-        font: {
-            fontSize: 11
-        },
-        textAlign: "center",
-        bottom: 15
-    }
-}, {
-    isId: true,
     priority: 100101.0005,
     key: "pvView",
     style: {

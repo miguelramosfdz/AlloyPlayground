@@ -1,0 +1,33 @@
+"#headerView": {
+	backgroundColor: 'red',
+},
+"#hvActivityIndicator": {
+	left: 35, 
+	bottom: 15,
+    width: 30,
+    height: 30
+},
+"#hvImage": {
+    left: 35,
+    bottom: 5,
+    image: WPATH('images/arrow.png'),
+    height: 60,
+    width: 23,
+},
+"#hvMessage": {
+    color: '#f00',
+    font: {
+    	fontSize: 12, 
+    	fontWeight: 'bold',
+   	},
+    textAlign: 'center',
+    bottom: 30,
+},
+"#hvTimestamp": {
+    color: '#f00',
+    font: {
+    	fontSize: 11
+	},
+    textAlign: 'center',
+    bottom: 15,
+}

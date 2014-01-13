@@ -85,14 +85,12 @@ function init() {
 
 	createListView(20);
 
-	/*
 	var footerController = Widget.createController('footer');
 
 	footerController.init({
 		element : $.listView,
 		onLoadNext : options.onLoadNext,
 	});
-	*/
 }
 
 init();

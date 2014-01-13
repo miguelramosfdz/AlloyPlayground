@@ -51,6 +51,11 @@ function Controller() {
             onRefresh: options.onRefresh
         });
         createListView(20);
+        var footerController = Widget.createController("footer");
+        footerController.init({
+            element: $.listView,
+            onLoadNext: options.onLoadNext
+        });
     }
     var Widget = new (require("alloy/widget"))("com.svobik.InfiniteList");
     this.__widgetId = "com.svobik.InfiniteList";

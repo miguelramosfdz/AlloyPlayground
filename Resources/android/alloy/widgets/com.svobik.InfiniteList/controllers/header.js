@@ -1,7 +1,7 @@
 function WPATH(s) {
     var index = s.lastIndexOf("/");
     var path = -1 === index ? "com.svobik.InfiniteList/" + s : s.substring(0, index) + "/com.svobik.InfiniteList/" + s.substring(index + 1);
-    return path;
+    return true && 0 !== path.indexOf("/") ? "/" + path : path;
 }
 
 function Controller() {
@@ -15,71 +15,21 @@ function Controller() {
     function getTimestamp() {
         return String.format(L("pvTimestamp"), getFormattedDate());
     }
-    function pullListener(e) {
-        if (false === options.inProgress) {
-            if (false == e.active) var rotation = Ti.UI.create2DMatrix(); else var rotation = Ti.UI.create2DMatrix().rotate(180);
-            $.hvImage.animate({
-                transform: rotation,
-                duration: 180
-            });
-            $.hvMessage.text = getMessage(e.active);
-        }
-    }
-    function pullendListener() {
-        if (false === options.inProgress) {
-            options.inProgress = true;
-            $.hvImage.hide();
-            $.hvActivityIndicator.show();
-            $.hvMessage.text = options.loadingMsg;
-            options.element.setContentInsets({
-                top: 65
-            }, {
-                animated: true
-            });
-            refresh();
-        }
-    }
-    function createHeaderView() {
+    function createRefreshView() {
         $.hvMessage.text = getMessage();
         $.hvTimestamp.text = getTimestamp();
         return $.getView();
     }
-    function refresh() {
-        try {
-            options.onRefresh(reset);
-        } catch (err) {
-            alert("Loading error! " + err);
-            reset();
-        }
-    }
-    function reset() {
-        $.hvActivityIndicator.hide();
-        $.hvImage.transform = Ti.UI.create2DMatrix();
-        $.hvImage.show();
-        $.hvMessage.text = getMessage(false);
-        $.hvTimestamp.text = getTimestamp();
-        options.element.setContentInsets({
-            top: 0
-        }, {
-            animated: true
-        });
-        options.inProgress = false;
-    }
     function cancel() {
-        if (true === options.isReady) {
-            options.element.removeEventListener("pull");
-            options.element.removeEventListener("pullend");
-            options.isReady = false;
-        }
+        true === options.isReady && (options.isReady = false);
     }
     function init(_options) {
         if (false === options.isReady) {
             _.extend(options, _options);
             if (false !== options.element) {
-                options.element.addEventListener("pull", pullListener);
-                options.element.addEventListener("pullend", pullendListener);
-                options.element.setPullView(createHeaderView());
+                options.element.setHeaderView(createRefreshView());
                 options.isReady = true;
+                Ti.API.log("Header initialized");
             }
         }
     }
@@ -116,7 +66,7 @@ function Controller() {
     });
     $.__views.headerView.add($.__views.hvImage);
     $.__views.hvMessage = Ti.UI.createLabel({
-        color: "#fff",
+        color: "#f00",
         font: {
             fontSize: 12,
             fontWeight: "bold"
@@ -127,7 +77,7 @@ function Controller() {
     });
     $.__views.headerView.add($.__views.hvMessage);
     $.__views.hvTimestamp = Ti.UI.createLabel({
-        color: "#fff",
+        color: "#f00",
         font: {
             fontSize: 11
         },

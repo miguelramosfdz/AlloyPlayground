@@ -21,10 +21,4 @@
 	font: {
 		fontSize: 12,
 	},	
-},
-/** 
- * 	PullView 
- */
-"#pvView[platform=android]": {
-	backgroundColor: 'red',
 }
