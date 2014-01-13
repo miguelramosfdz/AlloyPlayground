@@ -28,7 +28,7 @@ function Controller() {
     }
     function doRefresh(callback) {
         setTimeout(function() {
-            var items = createItems(20);
+            var items = createItems(10);
             $.listSection.insertItemsAt(0, items);
             callback(!items.length);
         }, 2500);

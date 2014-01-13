@@ -3,8 +3,8 @@
 		<!-- Defines item template -->
 		<Templates>
 			<ItemTemplate name="defaultTemplate" height="60">
-				<Label bindId="heading" id="heading"/>
-				<Label bindId="excerpt" id="excerpt"/>
+				<Label bindId="heading" id="heading" />
+				<Label bindId="excerpt" id="excerpt" />
 			</ItemTemplate>
 		</Templates>
 		<!-- Sets ListView's PullView property only for iOS platform -->
