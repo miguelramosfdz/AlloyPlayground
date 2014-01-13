@@ -31,9 +31,9 @@ function Controller() {
             callback();
         }, 2500);
     }
-    function createListView(_data) {
+    function doCreateList() {
         var items = [];
-        for (var i = 0; _data > i; i++) {
+        for (var i = 0; 20 > i; i++) {
             var item = {
                 heading: {
                     text: "Heading " + i
@@ -47,12 +47,12 @@ function Controller() {
         $.listSection.setItems(items);
     }
     function init() {
+        options.onCreate();
         var headerController = Widget.createController("header");
         headerController.init({
             element: $.listView,
             onRefresh: options.onRefresh
         });
-        createListView(20);
         var footerController = Widget.createController("footer");
         footerController.init({
             element: $.listView,
@@ -127,6 +127,7 @@ function Controller() {
     _.extend($, $.__views);
     arguments[0] || {};
     var options = {
+        onCreate: doCreateList,
         onRefresh: doRefresh,
         onLoadNext: doLoadNext
     };

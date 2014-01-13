@@ -4,40 +4,46 @@ var args = arguments[0] || {};
  * Widget options
  */
 var options = {
+	onCreate : doCreateList,
 	onRefresh : doRefresh,
 	onLoadNext : doLoadNext,
 };
 
 /**
- * Default load next
+ * Creates default items
  */
-function doLoadNext(callback) {
-	setTimeout(function() {
-		// ListView items stack
-		var items = [];
+function createItems() {
+	// ListView items stack
+	var items = [];
 
-		var itemsCount = $.listSection.getItems().length;
+	var itemsCount = $.listSection.getItems().length;
 
-		Ti.API.log('ItemsCount: ' + itemsCount);
+	Ti.API.log('ItemsCount: ' + itemsCount);
 
-		for (var i = itemsCount; i < itemsCount + 10; i++) {
-			var item = {
-				heading : {
-					text : 'Heading ' + i
-				},
-				excerpt : {
-					text : 'This is short excerpt #' + i
-				},
-			};
-
-			items.push(item);
+	for (var i = itemsCount; i < itemsCount + 10; i++) {
+		var item = {
+			heading : {
+				text : 'Heading ' + i
+			},
+			excerpt : {
+				text : 'This is short excerpt #' + i
+			},
 		};
 
-		// Sets list section items
-		$.listSection.appendItems(items);
+		items.push(item);
+	};
 
-		callback(!items.length);
-	}, 2500);
+	return items;
+}
+
+/**
+ * Creates ListView
+ */
+function doCreateList() {
+
+	var items = createItems();
+
+	$.listSection.setItems(items);
 }
 
 /**
@@ -51,28 +57,17 @@ function doRefresh(callback) {
 }
 
 /**
- * Creates ListView
+ * Default load next
  */
-function createListView(_data) {
+function doLoadNext(callback) {
+	setTimeout(function() {
 
-	// ListView items stack
-	var items = [];
+		var items = createItems();
+		
+		$.listSection.appendItems(items);
 
-	for (var i = 0; i < _data; i++) {
-		var item = {
-			heading : {
-				text : 'Heading ' + i
-			},
-			excerpt : {
-				text : 'This is short excerpt #' + i
-			},
-		};
-
-		items.push(item);
-	};
-
-	// Sets list section items
-	$.listSection.setItems(items);
+		callback(!items.length);
+	}, 2500);
 }
 
 /**
@@ -80,14 +75,14 @@ function createListView(_data) {
  */
 function init() {
 
+	options.onCreate();
+
 	var headerController = Widget.createController('header');
 
 	headerController.init({
 		element : $.listView,
 		onRefresh : options.onRefresh,
 	});
-
-	createListView(20);
 
 	var footerController = Widget.createController('footer');
 

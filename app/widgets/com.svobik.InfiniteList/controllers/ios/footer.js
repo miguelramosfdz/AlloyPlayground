@@ -73,16 +73,7 @@ function detectMarker() {
  * Load more data
  */
 function loadNext() {
-	try {
-
-		options.onLoadNext(reset);
-
-	} catch(err) {
-
-		alert('Loading error! ' + err);
-		reset();
-
-	}
+	options.onLoadNext(reset);
 }
 
 /**

@@ -45,12 +45,7 @@ function Controller() {
         return $.getView();
     }
     function refresh() {
-        try {
-            options.onRefresh(reset);
-        } catch (err) {
-            alert("Loading error! " + err);
-            reset();
-        }
+        options.onRefresh(reset);
     }
     function reset() {
         $.hvActivityIndicator.hide();

@@ -105,16 +105,7 @@ function createHeaderView() {
  * Refreshes and loads new data
  */
 function refresh() {
-	try {
-
-		options.onRefresh(reset);
-
-	} catch(err) {
-
-		alert('Loading error! ' + err);
-		reset();
-
-	}
+	options.onRefresh(reset);
 }
 
 /**

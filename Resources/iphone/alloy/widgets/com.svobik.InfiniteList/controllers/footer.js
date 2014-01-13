@@ -32,12 +32,7 @@ function Controller() {
         return marker;
     }
     function loadNext() {
-        try {
-            options.onLoadNext(reset);
-        } catch (err) {
-            alert("Loading error! " + err);
-            reset();
-        }
+        options.onLoadNext(reset);
     }
     function reset(isDone) {
         $.fvActivityIndicator.hide();
