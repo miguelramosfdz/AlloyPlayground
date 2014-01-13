@@ -5,11 +5,11 @@ function WPATH(s) {
 }
 
 function Controller() {
-    function createItems() {
+    function createItems(_limit) {
         var items = [];
         var itemsCount = $.listSection.getItems().length;
         Ti.API.log("ItemsCount: " + itemsCount);
-        for (var i = itemsCount; itemsCount + 10 > i; i++) {
+        for (var i = itemsCount; itemsCount + _limit > i; i++) {
             var item = {
                 heading: {
                     text: "Heading " + i
@@ -23,24 +23,25 @@ function Controller() {
         return items;
     }
     function doCreateList() {
-        var items = createItems();
+        var items = createItems(20);
         $.listSection.setItems(items);
     }
     function doRefresh(callback) {
         setTimeout(function() {
-            alert("Refreshed");
-            callback();
+            var items = createItems(20);
+            $.listSection.insertItemsAt(0, items);
+            callback(!items.length);
         }, 2500);
     }
     function doLoadNext(callback) {
         setTimeout(function() {
-            var items = createItems();
+            var items = createItems(10);
             $.listSection.appendItems(items);
             callback(!items.length);
         }, 2500);
     }
     function doItemClick(e) {
-        alert("YOu clicked me! #" + e.itemIndex);
+        alert("You clicked me! #" + e.itemIndex);
     }
     function cancel() {
         var headerController = Widget.createController("header");

@@ -13,7 +13,7 @@ var options = {
 /**
  * Creates default items
  */
-function createItems() {
+function createItems(_limit) {
 	// ListView items stack
 	var items = [];
 
@@ -21,7 +21,7 @@ function createItems() {
 
 	Ti.API.log('ItemsCount: ' + itemsCount);
 
-	for (var i = itemsCount; i < itemsCount + 10; i++) {
+	for (var i = itemsCount; i < itemsCount + _limit; i++) {
 		var item = {
 			heading : {
 				text : 'Heading ' + i
@@ -42,7 +42,7 @@ function createItems() {
  */
 function doCreateList() {
 
-	var items = createItems();
+	var items = createItems(20);
 
 	$.listSection.setItems(items);
 }
@@ -52,8 +52,12 @@ function doCreateList() {
  */
 function doRefresh(callback) {
 	setTimeout(function() {
-		alert('Refreshed');
-		callback();
+
+		var items = createItems(10);
+
+		$.listSection.insertItemsAt(0, items);
+
+		callback(!items.length);
 	}, 2500);
 }
 
@@ -63,7 +67,7 @@ function doRefresh(callback) {
 function doLoadNext(callback) {
 	setTimeout(function() {
 
-		var items = createItems();
+		var items = createItems(10);
 
 		$.listSection.appendItems(items);
 
