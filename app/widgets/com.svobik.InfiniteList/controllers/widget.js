@@ -16,7 +16,11 @@ function doLoadNext(callback) {
 		// ListView items stack
 		var items = [];
 
-		for (var i = 0; i < _data; i++) {
+		var itemsCount = $.listSection.getItems().length;
+
+		Ti.API.log('ItemsCount: ' + itemsCount);
+
+		for (var i = itemsCount; i < itemsCount + 10; i++) {
 			var item = {
 				heading : {
 					text : 'Heading ' + i
@@ -30,9 +34,9 @@ function doLoadNext(callback) {
 		};
 
 		// Sets list section items
-		$.listSection.addItems(items);
+		$.listSection.appendItems(items);
 
-		callback();
+		callback(!items.length);
 	}, 2500);
 }
 

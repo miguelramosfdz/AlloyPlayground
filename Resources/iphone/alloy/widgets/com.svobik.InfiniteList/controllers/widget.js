@@ -8,7 +8,9 @@ function Controller() {
     function doLoadNext(callback) {
         setTimeout(function() {
             var items = [];
-            for (var i = 0; _data > i; i++) {
+            var itemsCount = $.listSection.getItems().length;
+            Ti.API.log("ItemsCount: " + itemsCount);
+            for (var i = itemsCount; itemsCount + 10 > i; i++) {
                 var item = {
                     heading: {
                         text: "Heading " + i
@@ -19,8 +21,8 @@ function Controller() {
                 };
                 items.push(item);
             }
-            $.listSection.addItems(items);
-            callback();
+            $.listSection.appendItems(items);
+            callback(!items.length);
         }, 2500);
     }
     function doRefresh(callback) {

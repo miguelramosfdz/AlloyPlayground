@@ -5,15 +5,58 @@ function WPATH(s) {
 }
 
 function Controller() {
+    function tapListener() {
+        if (false === options.inProgress) {
+            options.inProgress = true;
+            $.fvActivityIndicator.show();
+            $.fvMessage.text = "";
+            loadNext();
+        }
+    }
+    function markerListener() {
+        $.fvMessage.fireEvent("singletap");
+    }
     function createFooterView() {
-        $.fvMessage.text = "Load next...";
+        $.fvMessage.addEventListener("singletap", tapListener);
+        $.fvMessage.text = options.tapMsg;
         return $.getView();
     }
-    function cancel() {}
+    function detectMarker() {
+        var marker = {}, sections = options.element.getSections(), items = sections[0].getItems();
+        var markerPosition = Math.floor(items.length - options.markerTreshold);
+        if (markerPosition > 0 && markerPosition > options.markerPosition) {
+            marker.sectionIndex = 0;
+            marker.itemIndex = markerPosition;
+            options.markerPosition = markerPosition;
+        }
+        return marker;
+    }
+    function loadNext() {
+        try {
+            options.onLoadNext(reset);
+        } catch (err) {
+            alert("Loading error! " + err);
+            reset();
+        }
+    }
+    function reset(isDone) {
+        $.fvActivityIndicator.hide();
+        if (isDone) $.fvMessage.text = options.doneMsg; else {
+            $.fvMessage.text = options.tapMsg;
+            options.element.setMarker(detectMarker());
+        }
+        options.inProgress = false;
+    }
+    function cancel() {
+        options.element.rmeoveEventListener("marker");
+        $.fvMessage.removeEventListener("singletap");
+    }
     function init(_options) {
         if (false === options.isReady) {
             _.extend(options, _options);
             if (false !== options.element) {
+                options.element.setMarker(detectMarker());
+                options.element.addEventListener("marker", markerListener);
                 options.element.setFooterView(createFooterView());
                 options.isReady = true;
             }
@@ -29,10 +72,17 @@ function Controller() {
     var $ = this;
     var exports = {};
     $.__views.footerView = Ti.UI.createView({
+        backgroundColor: "#f00",
         id: "footerView",
         height: Ti.UI.SIZE
     });
     $.__views.footerView && $.addTopLevelView($.__views.footerView);
+    $.__views.fvActivityIndicator = Ti.UI.createActivityIndicator({
+        width: 30,
+        height: 30,
+        id: "fvActivityIndicator"
+    });
+    $.__views.footerView.add($.__views.fvActivityIndicator);
     $.__views.fvMessage = Ti.UI.createLabel({
         color: "#000",
         font: {
@@ -42,22 +92,15 @@ function Controller() {
         id: "fvMessage"
     });
     $.__views.footerView.add($.__views.fvMessage);
-    $.__views.fvActivityIndicator = Ti.UI.createActivityIndicator({
-        left: 35,
-        bottom: 15,
-        width: 30,
-        height: 30,
-        id: "fvActivityIndicator"
-    });
-    $.__views.footerView.add($.__views.fvActivityIndicator);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var options = {
-        pullMsg: L("pvPullMessage", "Pull to refresh"),
-        pulledMsg: L("pvPulledMessage", "Release to refresh"),
-        loadingMsg: L("pvLoadingMessage", "Loading new content..."),
+        tapMsg: L("fvTapMessage", "Tap to refresh"),
+        doneMsg: L("fvDoneMessage", "No more content"),
+        markerPosition: 0,
+        markerTreshold: 5,
         inProgress: false,
-        onRefresh: null,
+        onLoadNext: null,
         isReady: false,
         element: null
     };
