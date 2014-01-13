@@ -18,6 +18,7 @@ function Controller() {
     $.__views.ilist.setParent($.__views.index);
     exports.destroy = function() {};
     _.extend($, $.__views);
+    $.ilist.init();
     $.index.open();
     _.extend($, exports);
 }

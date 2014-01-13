@@ -7,6 +7,7 @@ var options = {
 	onCreate : doCreateList,
 	onRefresh : doRefresh,
 	onLoadNext : doLoadNext,
+	onItemClick : doItemClick,
 };
 
 /**
@@ -63,11 +64,34 @@ function doLoadNext(callback) {
 	setTimeout(function() {
 
 		var items = createItems();
-		
+
 		$.listSection.appendItems(items);
 
 		callback(!items.length);
 	}, 2500);
+}
+
+/**
+ * Handles item click
+ */
+function doItemClick(e) {
+	alert('You clicked me! #' + e.itemIndex);
+}
+
+/**
+ * Cancels widget event listeners
+ */
+function cancel() {
+
+	var headerController = Widget.createController('header');
+
+	headerController.cancel();
+
+	var footerController = Widget.createController('footer');
+
+	footerController.cancel();
+
+	$.listView.removeEventListener('itemclick');
 }
 
 /**
@@ -90,6 +114,12 @@ function init() {
 		element : $.listView,
 		onLoadNext : options.onLoadNext,
 	});
+
+	$.listView.addEventListener('itemclick', options.onItemClick);
 }
 
-init();
+/**
+ * Public functions
+ */
+exports.init = init;
+exports.cancel = cancel;

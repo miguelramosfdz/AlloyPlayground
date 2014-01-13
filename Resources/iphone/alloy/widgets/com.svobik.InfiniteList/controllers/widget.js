@@ -5,35 +5,11 @@ function WPATH(s) {
 }
 
 function Controller() {
-    function doLoadNext(callback) {
-        setTimeout(function() {
-            var items = [];
-            var itemsCount = $.listSection.getItems().length;
-            Ti.API.log("ItemsCount: " + itemsCount);
-            for (var i = itemsCount; itemsCount + 10 > i; i++) {
-                var item = {
-                    heading: {
-                        text: "Heading " + i
-                    },
-                    excerpt: {
-                        text: "This is short excerpt #" + i
-                    }
-                };
-                items.push(item);
-            }
-            $.listSection.appendItems(items);
-            callback(!items.length);
-        }, 2500);
-    }
-    function doRefresh(callback) {
-        setTimeout(function() {
-            alert("Refreshed");
-            callback();
-        }, 2500);
-    }
-    function doCreateList() {
+    function createItems() {
         var items = [];
-        for (var i = 0; 20 > i; i++) {
+        var itemsCount = $.listSection.getItems().length;
+        Ti.API.log("ItemsCount: " + itemsCount);
+        for (var i = itemsCount; itemsCount + 10 > i; i++) {
             var item = {
                 heading: {
                     text: "Heading " + i
@@ -44,7 +20,34 @@ function Controller() {
             };
             items.push(item);
         }
+        return items;
+    }
+    function doCreateList() {
+        var items = createItems();
         $.listSection.setItems(items);
+    }
+    function doRefresh(callback) {
+        setTimeout(function() {
+            alert("Refreshed");
+            callback();
+        }, 2500);
+    }
+    function doLoadNext(callback) {
+        setTimeout(function() {
+            var items = createItems();
+            $.listSection.appendItems(items);
+            callback(!items.length);
+        }, 2500);
+    }
+    function doItemClick(e) {
+        alert("YOu clicked me! #" + e.itemIndex);
+    }
+    function cancel() {
+        var headerController = Widget.createController("header");
+        headerController.cancel();
+        var footerController = Widget.createController("footer");
+        footerController.cancel();
+        $.listView.removeEventListener("itemclick");
     }
     function init() {
         options.onCreate();
@@ -58,6 +61,7 @@ function Controller() {
             element: $.listView,
             onLoadNext: options.onLoadNext
         });
+        $.listView.addEventListener("itemclick", options.onItemClick);
     }
     var Widget = new (require("alloy/widget"))("com.svobik.InfiniteList");
     this.__widgetId = "com.svobik.InfiniteList";
@@ -129,9 +133,11 @@ function Controller() {
     var options = {
         onCreate: doCreateList,
         onRefresh: doRefresh,
-        onLoadNext: doLoadNext
+        onLoadNext: doLoadNext,
+        onItemClick: doItemClick
     };
-    init();
+    exports.init = init;
+    exports.cancel = cancel;
     _.extend($, exports);
 }
 
