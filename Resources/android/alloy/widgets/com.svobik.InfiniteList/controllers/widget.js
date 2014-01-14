@@ -5,33 +5,11 @@ function WPATH(s) {
 }
 
 function Controller() {
-    function doLoadNext(callback) {
-        setTimeout(function() {
-            var items = [];
-            for (var i = 0; _data > i; i++) {
-                var item = {
-                    heading: {
-                        text: "Heading " + i
-                    },
-                    excerpt: {
-                        text: "This is short excerpt #" + i
-                    }
-                };
-                items.push(item);
-            }
-            $.listSection.addItems(items);
-            callback();
-        }, 2500);
-    }
-    function doRefresh(callback) {
-        setTimeout(function() {
-            alert("Refreshed");
-            callback();
-        }, 2500);
-    }
-    function createListView(_data) {
+    function createItems(_limit) {
         var items = [];
-        for (var i = 0; _data > i; i++) {
+        var itemsCount = $.listSection.getItems().length;
+        Ti.API.log("ItemsCount: " + itemsCount);
+        for (var i = itemsCount; itemsCount + _limit > i; i++) {
             var item = {
                 heading: {
                     text: "Heading " + i
@@ -42,15 +20,56 @@ function Controller() {
             };
             items.push(item);
         }
+        return items;
+    }
+    function doCreateList() {
+        var items = createItems(20);
         $.listSection.setItems(items);
     }
-    function init() {
+    function doRefresh(callback) {
+        setTimeout(function() {
+            var items = createItems(10);
+            $.listSection.insertItemsAt(0, items);
+            callback(!items.length);
+        }, 2500);
+    }
+    function doLoadNext(callback) {
+        setTimeout(function() {
+            var items = createItems(10);
+            $.listSection.appendItems(items);
+            callback(!items.length);
+        }, 2500);
+    }
+    function doItemClick(e) {
+        alert("You clicked me! #" + e.itemIndex);
+    }
+    function setOptions(_options) {
+        delete _options.__parentSymbol;
+        delete _options.__itemTemplate;
+        delete _options.$model;
+        _.extend(options, _options);
+    }
+    function cancel() {
+        var headerController = Widget.createController("header");
+        headerController.cancel();
+        var footerController = Widget.createController("footer");
+        footerController.cancel();
+        $.listView.removeEventListener("itemclick");
+    }
+    function init(_options) {
+        setOptions(_options);
+        options.onCreate();
         var headerController = Widget.createController("header");
         headerController.init({
             element: $.listView,
             onRefresh: options.onRefresh
         });
-        createListView(20);
+        var footerController = Widget.createController("footer");
+        footerController.init({
+            element: $.listView,
+            onLoadNext: options.onLoadNext
+        });
+        $.listView.addEventListener("itemclick", options.onItemClick);
     }
     var Widget = new (require("alloy/widget"))("com.svobik.InfiniteList");
     this.__widgetId = "com.svobik.InfiniteList";
@@ -118,12 +137,14 @@ function Controller() {
     $.__views.listView && $.addTopLevelView($.__views.listView);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    arguments[0] || {};
     var options = {
+        onCreate: doCreateList,
         onRefresh: doRefresh,
-        onLoadNext: doLoadNext
+        onLoadNext: doLoadNext,
+        onItemClick: doItemClick
     };
-    init();
+    exports.init = init;
+    exports.cancel = cancel;
     _.extend($, exports);
 }
 

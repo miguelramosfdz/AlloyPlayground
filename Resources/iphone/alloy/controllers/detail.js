@@ -1,25 +1,27 @@
 function Controller() {
-    function openDetail(e) {
-        var controller = Alloy.createController("detail");
-        var win = controller.getView();
-        controller.init(e.itemIndex);
-        win.open();
+    function init(id) {
+        $.message.text = "This is detail #" + id;
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
-    this.__controllerPath = "index";
+    this.__controllerPath = "detail";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
     arguments[0] ? arguments[0]["$model"] : null;
     arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
-    $.__views.master = Alloy.createController("master", {
-        id: "master"
+    $.__views.detail = Ti.UI.createWindow({
+        backgroundColor: "white",
+        layout: "vertical",
+        id: "detail"
     });
-    $.__views.master && $.addTopLevelView($.__views.master);
+    $.__views.detail && $.addTopLevelView($.__views.detail);
+    $.__views.message = Ti.UI.createLabel({
+        id: "message"
+    });
+    $.__views.detail.add($.__views.message);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    $.master.on("detail", openDetail);
-    $.master.getView().open();
+    exports.init = init;
     _.extend($, exports);
 }
 

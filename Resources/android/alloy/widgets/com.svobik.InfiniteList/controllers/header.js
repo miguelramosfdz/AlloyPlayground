@@ -5,21 +5,6 @@ function WPATH(s) {
 }
 
 function Controller() {
-    function getFormattedDate() {
-        return moment().format("DD/MM/YYYY HH:mm");
-    }
-    function getMessage(pulled) {
-        if (pulled) return options.pulledMsg;
-        return options.pullMsg;
-    }
-    function getTimestamp() {
-        return String.format(L("pvTimestamp"), getFormattedDate());
-    }
-    function createRefreshView() {
-        $.hvMessage.text = getMessage();
-        $.hvTimestamp.text = getTimestamp();
-        return $.getView();
-    }
     function cancel() {
         true === options.isReady && (options.isReady = false);
     }
@@ -27,7 +12,6 @@ function Controller() {
         if (false === options.isReady) {
             _.extend(options, _options);
             if (false !== options.element) {
-                options.element.setHeaderView(createRefreshView());
                 options.isReady = true;
                 Ti.API.log("Header initialized");
             }
@@ -97,7 +81,7 @@ function Controller() {
         isReady: false,
         element: null
     };
-    var moment = require("alloy/moment");
+    require("alloy/moment");
     exports.init = init;
     exports.cancel = cancel;
     _.extend($, exports);

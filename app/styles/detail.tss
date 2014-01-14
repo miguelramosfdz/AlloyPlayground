@@ -1,0 +1,12 @@
+".container": {
+	backgroundColor:"white",
+	layout: 'vertical',
+},
+"#text": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	color: "#000",
+	top: 20,
+	left: 15,
+	textAlign: 'center',
+}

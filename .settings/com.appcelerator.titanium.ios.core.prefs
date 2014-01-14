@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+iosLaunchConfigurationAttributes/ATTR_MINIFY=true
+iosLaunchConfigurationAttributes/ATTR_PROJECT_NAME=AlloyPlayground
+iosLaunchConfigurationAttributes/appid=cz.dsolutions.alloy
+iosLaunchConfigurationAttributes/certificate=Jiri Svoboda (M58XVYWRRZ)
+iosLaunchConfigurationAttributes/keychain=
+iosLaunchConfigurationAttributes/sdk_version=7.0.3
+iosLaunchConfigurationAttributes/uuid=86D95A53-8506-4DC7-808E-4D51E6996C83
+provisioning_profiles/development/86D95A53-8506-4DC7-808E-4D51E6996C83/appid=*
+provisioning_profiles/development/86D95A53-8506-4DC7-808E-4D51E6996C83/name=iOS Team Provisioning Profile\: *
+provisioning_profiles/development/86D95A53-8506-4DC7-808E-4D51E6996C83/uuid=86D95A53-8506-4DC7-808E-4D51E6996C83

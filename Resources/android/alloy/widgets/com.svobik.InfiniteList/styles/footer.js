@@ -5,33 +5,29 @@ function WPATH(s) {
 }
 
 module.exports = [ {
-    isApi: true,
-    priority: 1000.0002,
-    key: "Label",
+    isId: true,
+    priority: 100100.0005,
+    key: "footerView",
+    style: {
+        backgroundColor: "#f00"
+    }
+}, {
+    isId: true,
+    priority: 100100.0006,
+    key: "fvActivityIndicator",
+    style: {
+        width: 30,
+        height: 30
+    }
+}, {
+    isId: true,
+    priority: 100100.0007,
+    key: "fvMessage",
     style: {
         color: "#000",
-        height: Ti.UI.SIZE,
-        width: Ti.UI.SIZE
-    }
-}, {
-    isId: true,
-    priority: 100000.0003,
-    key: "heading",
-    style: {
-        top: 5,
-        font: {
-            fontSize: 18,
-            fontWeight: "bold"
-        }
-    }
-}, {
-    isId: true,
-    priority: 100000.0004,
-    key: "excerpt",
-    style: {
-        top: 35,
         font: {
             fontSize: 12
-        }
+        },
+        textAlign: "center"
     }
 } ];

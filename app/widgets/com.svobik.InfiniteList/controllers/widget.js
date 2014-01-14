@@ -1,5 +1,3 @@
-var args = arguments[0] || {};
-
 /**
  * Widget options
  */
@@ -83,6 +81,17 @@ function doItemClick(e) {
 }
 
 /**
+ * Sets widget's options
+ */
+function setOptions(_options) {
+	delete _options.__parentSymbol;
+	delete _options.__itemTemplate;
+	delete _options.$model;
+
+	_.extend(options, _options);
+}
+
+/**
  * Cancels widget event listeners
  */
 function cancel() {
@@ -101,7 +110,9 @@ function cancel() {
 /**
  * Inits widget
  */
-function init() {
+function init(_options) {
+
+	setOptions(_options);
 
 	options.onCreate();
 
@@ -126,4 +137,4 @@ function init() {
  * Public functions
  */
 exports.init = init;
-exports.cancel = cancel;
+exports.cancel = cancel; 

@@ -1,5 +1,17 @@
 <Alloy>
-	<Window class="container">
-		<Widget src="com.svobik.InfiniteList" id="ilist" />
-	</Window>
+	
+	<!-- For iOS iPad -->
+    <SplitWindow id="index" platform="ios" formFactor="tablet">
+        <Require src="master" id="master" />
+        <Require src="detail" id="detail" />
+    </SplitWindow>
+        
+	<!-- For iOS iPhone -->
+	<NavigationWindow id="index" platform="ios" formFactor="handheld">
+		<Require src="master" id="master" />
+	</NavigationWindow>
+	
+	<!-- For Android -->
+	<Require src="master" id="master" platform="android" />
+	
 </Alloy>

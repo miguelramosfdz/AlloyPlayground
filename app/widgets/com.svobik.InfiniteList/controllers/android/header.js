@@ -167,7 +167,7 @@ function init(_options) {
 			//options.element.addEventListener('pull', pullListener);
 			//options.element.addEventListener('pullend', pullendListener);
 
-			options.element.setHeaderView(createRefreshView());
+			//options.element.setHeaderView(createRefreshView());
 			//options.element.setHeaderView(createRefreshView());
 			//createRefreshView();
 

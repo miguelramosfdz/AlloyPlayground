@@ -43,6 +43,12 @@ function Controller() {
     function doItemClick(e) {
         alert("You clicked me! #" + e.itemIndex);
     }
+    function setOptions(_options) {
+        delete _options.__parentSymbol;
+        delete _options.__itemTemplate;
+        delete _options.$model;
+        _.extend(options, _options);
+    }
     function cancel() {
         var headerController = Widget.createController("header");
         headerController.cancel();
@@ -50,7 +56,8 @@ function Controller() {
         footerController.cancel();
         $.listView.removeEventListener("itemclick");
     }
-    function init() {
+    function init(_options) {
+        setOptions(_options);
         options.onCreate();
         var headerController = Widget.createController("header");
         headerController.init({
@@ -130,7 +137,6 @@ function Controller() {
     $.__views.listView && $.addTopLevelView($.__views.listView);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    arguments[0] || {};
     var options = {
         onCreate: doCreateList,
         onRefresh: doRefresh,
