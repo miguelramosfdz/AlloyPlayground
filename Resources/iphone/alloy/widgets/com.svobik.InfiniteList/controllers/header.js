@@ -45,7 +45,7 @@ function Controller() {
         return $.getView();
     }
     function refresh() {
-        options.onRefresh(reset);
+        $.trigger("refresh", reset);
     }
     function reset() {
         $.hvActivityIndicator.hide();
@@ -60,22 +60,25 @@ function Controller() {
         });
         options.inProgress = false;
     }
+    function dettach() {
+        options.element.removeEventListener("pull");
+        options.element.removeEventListener("pullend");
+        options.element.pullView = null;
+        options.isReady = false;
+    }
+    function attach() {
+        options.element.addEventListener("pull", pullListener);
+        options.element.addEventListener("pullend", pullendListener);
+        options.element.setPullView(createHeaderView());
+        options.isReady = true;
+    }
     function cancel() {
-        if (true === options.isReady) {
-            options.element.removeEventListener("pull");
-            options.element.removeEventListener("pullend");
-            options.isReady = false;
-        }
+        true === options.isReady && dettach();
     }
     function init(_options) {
         if (false === options.isReady) {
             _.extend(options, _options);
-            if (false !== options.element) {
-                options.element.addEventListener("pull", pullListener);
-                options.element.addEventListener("pullend", pullendListener);
-                options.element.setPullView(createHeaderView());
-                options.isReady = true;
-            }
+            false !== options.element && attach();
         }
     }
     new (require("alloy/widget"))("com.svobik.InfiniteList");
@@ -88,7 +91,7 @@ function Controller() {
     var $ = this;
     var exports = {};
     $.__views.headerView = Ti.UI.createView({
-        backgroundColor: "red",
+        backgroundColor: "transparent",
         id: "headerView",
         height: Ti.UI.SIZE
     });
@@ -138,7 +141,6 @@ function Controller() {
         pulledMsg: L("pvPulledMessage", "Release to refresh"),
         loadingMsg: L("pvLoadingMessage", "Loading new content..."),
         inProgress: false,
-        onRefresh: null,
         isReady: false,
         element: null
     };

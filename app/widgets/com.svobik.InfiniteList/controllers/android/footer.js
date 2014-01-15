@@ -114,11 +114,13 @@ function init(_options) {
 
 		if (false !== options.element) {
 
+			var sections = options.element.getSections();
+
+			sections[0].setFooterView(createFooterView());
+
 			options.element.setMarker(detectMarker());
 
 			options.element.addEventListener('marker', markerListener);
-
-			options.element.setFooterView(createFooterView());
 
 			options.isReady = true;
 		}

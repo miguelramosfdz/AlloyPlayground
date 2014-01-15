@@ -6,7 +6,6 @@ var options = {
 	pulledMsg : L('pvPulledMessage', 'Release to refresh'),
 	loadingMsg : L('pvLoadingMessage', 'Loading new content...'),
 	inProgress : false,
-	onRefresh : null,
 	isReady : false,
 	element : null,
 };
@@ -105,13 +104,16 @@ function createHeaderView() {
  * Refreshes and loads new data
  */
 function refresh() {
-	options.onRefresh(reset);
+
+	$.trigger('refresh', reset);
 }
 
 /**
  * Resets to its default state
  */
-function reset() {
+function reset(isDone) {
+
+	//Ti.API.log('Called header "reset". ' + isDone);
 
 	$.hvActivityIndicator.hide();
 
@@ -131,16 +133,39 @@ function reset() {
 }
 
 /**
+ * Detaches HeaderView from element
+ */
+function dettach() {
+
+	options.element.removeEventListener('pull');
+	options.element.removeEventListener('pullend');
+
+	options.element.pullView = null;
+
+	options.isReady = false;
+}
+
+/**
+ * Attaches HeaderView to element
+ */
+function attach() {
+
+	options.element.addEventListener('pull', pullListener);
+	options.element.addEventListener('pullend', pullendListener);
+
+	options.element.setPullView(createHeaderView());
+
+	options.isReady = true;
+}
+
+/**
  * Cancels event listeners so memory can be released
  */
 function cancel() {
 
 	if (true === options.isReady) {
 
-		options.element.removeEventListener('pull');
-		options.element.removeEventListener('pullend');
-
-		options.isReady = false;
+		dettach();
 	}
 }
 
@@ -155,12 +180,7 @@ function init(_options) {
 
 		if (false !== options.element) {
 
-			options.element.addEventListener('pull', pullListener);
-			options.element.addEventListener('pullend', pullendListener);
-
-			options.element.setPullView(createHeaderView());
-
-			options.isReady = true;
+			attach();
 		}
 	}
 }

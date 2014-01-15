@@ -1,9 +1,10 @@
 function openDetail(e) {
+	
 	// get the detail controller and window references
 	var controller = OS_IOS && Alloy.isTablet ? $.detail : Alloy.createController('detail');
 	var win = controller.getView();
 
-	// get boxer stats by name
+	// init detail
 	controller.init(e.itemIndex);
 
 	// open the detail windows

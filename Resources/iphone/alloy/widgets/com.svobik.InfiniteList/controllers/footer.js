@@ -17,7 +17,6 @@ function Controller() {
         $.fvMessage.fireEvent("singletap");
     }
     function createFooterView() {
-        $.fvMessage.addEventListener("singletap", tapListener);
         $.fvMessage.text = options.tapMsg;
         return $.getView();
     }
@@ -32,7 +31,7 @@ function Controller() {
         return marker;
     }
     function loadNext() {
-        options.onLoadNext(reset);
+        $.trigger("loadNext", reset);
     }
     function reset(isDone) {
         $.fvActivityIndicator.hide();
@@ -42,19 +41,27 @@ function Controller() {
         }
         options.inProgress = false;
     }
-    function cancel() {
-        options.element.rmeoveEventListener("marker");
+    function dettach() {
         $.fvMessage.removeEventListener("singletap");
+        options.element.removeEventListener("marker");
+        options.element.marker = null;
+        options.element.footerView = null;
+        options.isReady = false;
+    }
+    function attach() {
+        $.fvMessage.addEventListener("singletap", tapListener);
+        options.element.addEventListener("marker", markerListener);
+        options.element.setMarker(detectMarker());
+        options.element.setFooterView(createFooterView());
+        options.isReady = true;
+    }
+    function cancel() {
+        true === options.isReady && dettach();
     }
     function init(_options) {
         if (false === options.isReady) {
             _.extend(options, _options);
-            if (false !== options.element) {
-                options.element.setMarker(detectMarker());
-                options.element.addEventListener("marker", markerListener);
-                options.element.setFooterView(createFooterView());
-                options.isReady = true;
-            }
+            false !== options.element && attach();
         }
     }
     new (require("alloy/widget"))("com.svobik.InfiniteList");
@@ -67,7 +74,7 @@ function Controller() {
     var $ = this;
     var exports = {};
     $.__views.footerView = Ti.UI.createView({
-        backgroundColor: "#f00",
+        backgroundColor: "transparent",
         id: "footerView",
         height: Ti.UI.SIZE
     });
@@ -75,6 +82,7 @@ function Controller() {
     $.__views.fvActivityIndicator = Ti.UI.createActivityIndicator({
         width: 30,
         height: 30,
+        style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK,
         id: "fvActivityIndicator"
     });
     $.__views.footerView.add($.__views.fvActivityIndicator);
@@ -95,7 +103,6 @@ function Controller() {
         markerPosition: 0,
         markerTreshold: 5,
         inProgress: false,
-        onLoadNext: null,
         isReady: false,
         element: null
     };

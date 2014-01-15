@@ -162,18 +162,17 @@ function init(_options) {
 
 		_.extend(options, _options);
 
-		if (false !== options.element) {
+		if (false !== options.element && options.element.sectionCount) {
 
-			//options.element.addEventListener('pull', pullListener);
-			//options.element.addEventListener('pullend', pullendListener);
+			var sections = options.element.getSections();
 
-			//options.element.setHeaderView(createRefreshView());
-			//options.element.setHeaderView(createRefreshView());
-			//createRefreshView();
+			sections[0].setHeaderView(createheaderView());
+
+			options.element.addEventListener('pull', pullListener);
+
+			options.element.addEventListener('pullend', pullendListener);
 
 			options.isReady = true;
-			
-			Ti.API.log('Header initialized');
 		}
 	}
 }

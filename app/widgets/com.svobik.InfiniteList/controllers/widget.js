@@ -2,82 +2,70 @@
  * Widget options
  */
 var options = {
-	onCreate : doCreateList,
-	onRefresh : doRefresh,
-	onLoadNext : doLoadNext,
-	onItemClick : doItemClick,
+	onInit : null,
+	onRefresh : null,
+	onLoadNext : null,
+	onItemClick : null,
+	header : null,
+	footer : null,
 };
 
 /**
- * Creates default items
+ * Creates default ListView
  */
-function createItems(_limit) {
-	// ListView items stack
-	var items = [];
+function doInit(callback) {
 
-	var itemsCount = $.listSection.getItems().length;
+	//Ti.API.log('Called "widget.doInit". ' + callback);
 
-	Ti.API.log('ItemsCount: ' + itemsCount);
+	options.onInit(function(items) {
 
-	for (var i = itemsCount; i < itemsCount + _limit; i++) {
-		var item = {
-			heading : {
-				text : 'Heading ' + i
-			},
-			excerpt : {
-				text : 'This is short excerpt #' + i
-			},
-		};
+		$.lvActivityIndicator.hide();
 
-		items.push(item);
-	};
+		$.listSection.setItems(items);
+		
+		$.listWrapper.show();
 
-	return items;
+		callback();
+
+	});
 }
 
 /**
- * Creates ListView
- */
-function doCreateList() {
-
-	var items = createItems(20);
-
-	$.listSection.setItems(items);
-}
-
-/**
- * Default refresh
+ * Do default refresh
  */
 function doRefresh(callback) {
-	setTimeout(function() {
 
-		var items = createItems(10);
+	//Ti.API.log('Called "widget.doRefresh". ' + callback);
+
+	options.onRefresh(function(items) {
 
 		$.listSection.insertItemsAt(0, items);
 
 		callback(!items.length);
-	}, 2500);
+	});
 }
 
 /**
- * Default load next
+ * Do Default load next
  */
 function doLoadNext(callback) {
-	setTimeout(function() {
 
-		var items = createItems(10);
+	//Ti.API.log('Called "widget.doloadNext". ' + callback);
+
+	options.onLoadNext(function(items) {
 
 		$.listSection.appendItems(items);
 
 		callback(!items.length);
-	}, 2500);
+	});
 }
 
 /**
- * Handles item click
+ * Handles item click as default
  */
 function doItemClick(e) {
-	alert('You clicked me! #' + e.itemIndex);
+
+	options.onItemClick(e);
 }
 
 /**
@@ -92,19 +80,39 @@ function setOptions(_options) {
 }
 
 /**
- * Cancels widget event listeners
+ * Destroys widget
  */
-function cancel() {
+function destroy() {
 
-	var headerController = Widget.createController('header');
+	options.header.cancel();
 
-	headerController.cancel();
+	options.footer.cancel();
 
-	var footerController = Widget.createController('footer');
-
-	footerController.cancel();
+	options.header = options.footer = null;
 
 	$.listView.removeEventListener('itemclick');
+}
+
+/**
+ * Creates ListView
+ */
+function create() {
+
+	$.listView.addEventListener('itemclick', doItemClick);
+
+	options.header = Widget.createController('header');
+	options.footer = Widget.createController('footer');
+
+	options.header.init({
+		element : $.listView,
+	});
+
+	options.footer.init({
+		element : $.listView,
+	});
+
+	options.header.on('refresh', doRefresh);
+	options.footer.on('loadNext', doLoadNext);
 }
 
 /**
@@ -112,29 +120,24 @@ function cancel() {
  */
 function init(_options) {
 
+	$.listWrapper.hide();
+	$.lvActivityIndicator.show();
+
 	setOptions(_options);
 
-	options.onCreate();
+	if (null === options.onInit || null === opitons.onRefresh || null === options.onLoadNext) {
 
-	var headerController = Widget.createController('header');
+		var loader = require(WPATH('loader'));
 
-	headerController.init({
-		element : $.listView,
-		onRefresh : options.onRefresh,
-	});
+		options.onInit = (null === options.onInit) ? loader.init : options.onInit;
+		options.onRefresh = (null === options.onRefresh) ? loader.refresh : options.onRefresh;
+		options.onLoadNext = (null === options.onLoadNext) ? loader.loadNext : options.onLoadNext;
+	}
 
-	var footerController = Widget.createController('footer');
-
-	footerController.init({
-		element : $.listView,
-		onLoadNext : options.onLoadNext,
-	});
-
-	$.listView.addEventListener('itemclick', options.onItemClick);
+	doInit(create);
 }
 
 /**
  * Public functions
  */
 exports.init = init;
-exports.cancel = cancel; 

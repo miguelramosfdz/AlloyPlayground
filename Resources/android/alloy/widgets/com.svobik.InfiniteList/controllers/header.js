@@ -5,15 +5,73 @@ function WPATH(s) {
 }
 
 function Controller() {
+    function getFormattedDate() {
+        return moment().format("DD/MM/YYYY HH:mm");
+    }
+    function getMessage(pulled) {
+        if (pulled) return options.pulledMsg;
+        return options.pullMsg;
+    }
+    function getTimestamp() {
+        return String.format(L("pvTimestamp"), getFormattedDate());
+    }
+    function pullListener(e) {
+        if (false === options.inProgress) {
+            if (false == e.active) var rotation = Ti.UI.create2DMatrix(); else var rotation = Ti.UI.create2DMatrix().rotate(180);
+            $.hvImage.animate({
+                transform: rotation,
+                duration: 180
+            });
+            $.hvMessage.text = getMessage(e.active);
+        }
+    }
+    function pullendListener() {
+        if (false === options.inProgress) {
+            options.inProgress = true;
+            $.hvImage.hide();
+            $.hvActivityIndicator.show();
+            $.hvMessage.text = options.loadingMsg;
+            options.element.setContentInsets({
+                top: 65
+            }, {
+                animated: true
+            });
+            refresh();
+        }
+    }
+    function refresh() {
+        try {
+            options.onRefresh(reset);
+        } catch (err) {
+            alert("Loading error! " + err);
+            reset();
+        }
+    }
+    function reset() {
+        $.hvActivityIndicator.hide();
+        $.hvImage.transform = Ti.UI.create2DMatrix();
+        $.hvImage.show();
+        $.hvMessage.text = getMessage(false);
+        $.hvTimestamp.text = getTimestamp();
+        options.element.setContentInsets({
+            top: 0
+        }, {
+            animated: true
+        });
+        options.inProgress = false;
+    }
     function cancel() {
         true === options.isReady && (options.isReady = false);
     }
     function init(_options) {
         if (false === options.isReady) {
             _.extend(options, _options);
-            if (false !== options.element) {
+            if (false !== options.element && options.element.sectionCount) {
+                var sections = options.element.getSections();
+                sections[0].setHeaderView(createheaderView());
+                options.element.addEventListener("pull", pullListener);
+                options.element.addEventListener("pullend", pullendListener);
                 options.isReady = true;
-                Ti.API.log("Header initialized");
             }
         }
     }
@@ -81,7 +139,7 @@ function Controller() {
         isReady: false,
         element: null
     };
-    require("alloy/moment");
+    var moment = require("alloy/moment");
     exports.init = init;
     exports.cancel = cancel;
     _.extend($, exports);

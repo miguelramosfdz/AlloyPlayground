@@ -34,4 +34,20 @@ module.exports = [ {
             fontSize: 12
         }
     }
+}, {
+    isId: true,
+    priority: 100000.0005,
+    key: "lvActivityIndicator",
+    style: {
+        width: Ti.UI.SIZE,
+        height: Ti.UI.SIZE,
+        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+    }
+}, {
+    isId: true,
+    priority: 100101.0006,
+    key: "lvActivityIndicator",
+    style: {
+        style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
+    }
 } ];

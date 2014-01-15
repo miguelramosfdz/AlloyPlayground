@@ -49,11 +49,14 @@ function Controller() {
     function init(_options) {
         if (false === options.isReady) {
             _.extend(options, _options);
-            if (false !== options.element) {
+            Ti.API.log("Section count: " + options.element.sectionCount);
+            if (false !== options.element && options.element.sectionCount) {
+                var sections = options.element.getSections();
+                sections[0].setFooterView(createFooterView());
                 options.element.setMarker(detectMarker());
                 options.element.addEventListener("marker", markerListener);
-                options.element.setFooterView(createFooterView());
                 options.isReady = true;
+                Ti.API.log("Footer ready!");
             }
         }
     }

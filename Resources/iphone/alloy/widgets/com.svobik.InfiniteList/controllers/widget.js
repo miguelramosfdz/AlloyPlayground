@@ -5,43 +5,28 @@ function WPATH(s) {
 }
 
 function Controller() {
-    function createItems(_limit) {
-        var items = [];
-        var itemsCount = $.listSection.getItems().length;
-        Ti.API.log("ItemsCount: " + itemsCount);
-        for (var i = itemsCount; itemsCount + _limit > i; i++) {
-            var item = {
-                heading: {
-                    text: "Heading " + i
-                },
-                excerpt: {
-                    text: "This is short excerpt #" + i
-                }
-            };
-            items.push(item);
-        }
-        return items;
-    }
-    function doCreateList() {
-        var items = createItems(20);
-        $.listSection.setItems(items);
+    function doInit(callback) {
+        options.onInit(function(items) {
+            $.lvActivityIndicator.hide();
+            $.listSection.setItems(items);
+            $.listWrapper.show();
+            callback();
+        });
     }
     function doRefresh(callback) {
-        setTimeout(function() {
-            var items = createItems(10);
+        options.onRefresh(function(items) {
             $.listSection.insertItemsAt(0, items);
             callback(!items.length);
-        }, 2500);
+        });
     }
     function doLoadNext(callback) {
-        setTimeout(function() {
-            var items = createItems(10);
+        options.onLoadNext(function(items) {
             $.listSection.appendItems(items);
             callback(!items.length);
-        }, 2500);
+        });
     }
     function doItemClick(e) {
-        alert("You clicked me! #" + e.itemIndex);
+        options.onItemClick(e);
     }
     function setOptions(_options) {
         delete _options.__parentSymbol;
@@ -49,27 +34,30 @@ function Controller() {
         delete _options.$model;
         _.extend(options, _options);
     }
-    function cancel() {
-        var headerController = Widget.createController("header");
-        headerController.cancel();
-        var footerController = Widget.createController("footer");
-        footerController.cancel();
-        $.listView.removeEventListener("itemclick");
+    function create() {
+        $.listView.addEventListener("itemclick", doItemClick);
+        options.header = Widget.createController("header");
+        options.footer = Widget.createController("footer");
+        options.header.init({
+            element: $.listView
+        });
+        options.footer.init({
+            element: $.listView
+        });
+        options.header.on("refresh", doRefresh);
+        options.footer.on("loadNext", doLoadNext);
     }
     function init(_options) {
+        $.listWrapper.hide();
+        $.lvActivityIndicator.show();
         setOptions(_options);
-        options.onCreate();
-        var headerController = Widget.createController("header");
-        headerController.init({
-            element: $.listView,
-            onRefresh: options.onRefresh
-        });
-        var footerController = Widget.createController("footer");
-        footerController.init({
-            element: $.listView,
-            onLoadNext: options.onLoadNext
-        });
-        $.listView.addEventListener("itemclick", options.onItemClick);
+        if (null === options.onInit || null === opitons.onRefresh || null === options.onLoadNext) {
+            var loader = require(WPATH("loader"));
+            options.onInit = null === options.onInit ? loader.init : options.onInit;
+            options.onRefresh = null === options.onRefresh ? loader.refresh : options.onRefresh;
+            options.onLoadNext = null === options.onLoadNext ? loader.loadNext : options.onLoadNext;
+        }
+        doInit(create);
     }
     var Widget = new (require("alloy/widget"))("com.svobik.InfiniteList");
     this.__widgetId = "com.svobik.InfiniteList";
@@ -80,6 +68,18 @@ function Controller() {
     arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
+    $.__views.lvActivityIndicator = Ti.UI.createActivityIndicator({
+        width: Ti.UI.SIZE,
+        height: Ti.UI.SIZE,
+        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+        style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK,
+        id: "lvActivityIndicator"
+    });
+    $.__views.lvActivityIndicator && $.addTopLevelView($.__views.lvActivityIndicator);
+    $.__views.listWrapper = Ti.UI.createView({
+        id: "listWrapper"
+    });
+    $.__views.listWrapper && $.addTopLevelView($.__views.listWrapper);
     var __alloyId0 = {};
     var __alloyId3 = [];
     var __alloyId4 = {
@@ -134,17 +134,18 @@ function Controller() {
         id: "listView",
         defaultItemTemplate: "defaultTemplate"
     });
-    $.__views.listView && $.addTopLevelView($.__views.listView);
+    $.__views.listWrapper.add($.__views.listView);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var options = {
-        onCreate: doCreateList,
-        onRefresh: doRefresh,
-        onLoadNext: doLoadNext,
-        onItemClick: doItemClick
+        onInit: null,
+        onRefresh: null,
+        onLoadNext: null,
+        onItemClick: null,
+        header: null,
+        footer: null
     };
     exports.init = init;
-    exports.cancel = cancel;
     _.extend($, exports);
 }
 

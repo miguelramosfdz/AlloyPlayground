@@ -7,7 +7,6 @@ var options = {
 	markerPosition : 0,
 	markerTreshold : 5,
 	inProgress : false,
-	onLoadNext : null,
 	isReady : false,
 	element : null,
 };
@@ -42,8 +41,6 @@ function markerListener() {
  */
 function createFooterView() {
 
-	$.fvMessage.addEventListener('singletap', tapListener);
-
 	$.fvMessage.text = options.tapMsg;
 
 	return $.getView();
@@ -73,13 +70,16 @@ function detectMarker() {
  * Load more data
  */
 function loadNext() {
-	options.onLoadNext(reset);
+
+	$.trigger('loadNext', reset);
 }
 
 /**
  * Reset footer to it's default state
  */
 function reset(isDone) {
+
+	//Ti.API.log('Called footer "reset". ' + isDone);
 
 	$.fvActivityIndicator.hide();
 
@@ -94,13 +94,46 @@ function reset(isDone) {
 }
 
 /**
+ * Dettaches FooterView from element
+ */
+function dettach() {
+
+	$.fvMessage.removeEventListener('singletap');
+
+	options.element.removeEventListener('marker');
+
+	options.element.marker = null;
+
+	options.element.footerView = null;
+
+	options.isReady = false;
+}
+
+/**
+ * Attaches FooterView to element
+ */
+function attach() {
+
+	$.fvMessage.addEventListener('singletap', tapListener);
+
+	options.element.addEventListener('marker', markerListener);
+
+	options.element.setMarker(detectMarker());
+
+	options.element.setFooterView(createFooterView());
+
+	options.isReady = true;
+}
+
+/**
  * Cancels footer view initialization
  */
 function cancel() {
 
-	options.element.rmeoveEventListener('marker');
+	if (true === options.isReady) {
 
-	$.fvMessage.removeEventListener('singletap');
+		dettach();
+	}
 }
 
 /**
@@ -114,13 +147,7 @@ function init(_options) {
 
 		if (false !== options.element) {
 
-			options.element.setMarker(detectMarker());
-
-			options.element.addEventListener('marker', markerListener);
-
-			options.element.setFooterView(createFooterView());
-
-			options.isReady = true;
+			attach();
 		}
 	}
 }

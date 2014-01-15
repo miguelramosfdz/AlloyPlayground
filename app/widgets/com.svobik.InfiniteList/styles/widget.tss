@@ -21,4 +21,18 @@
 	font: {
 		fontSize: 12,
 	},	
+},
+/**
+ * 	ActivityIndicator
+ */
+"#lvActivityIndicator": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,	
+}
+"#lvActivityIndicator[platform=ios]": {
+	style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK,
+}
+"#lvActivityIndicator[platform=android]": {
+	style: Ti.UI.ActivityIndicatorStyle.DARK,
 }

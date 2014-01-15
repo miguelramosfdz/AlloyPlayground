@@ -6,14 +6,14 @@ function WPATH(s) {
 
 module.exports = [ {
     isId: true,
-    priority: 100100.0005,
+    priority: 100100.0008,
     key: "footerView",
     style: {
-        backgroundColor: "#f00"
+        backgroundColor: "transparent"
     }
 }, {
     isId: true,
-    priority: 100100.0006,
+    priority: 100100.0009,
     key: "fvActivityIndicator",
     style: {
         width: 30,
@@ -21,7 +21,7 @@ module.exports = [ {
     }
 }, {
     isId: true,
-    priority: 100100.0007,
+    priority: 100100.0012,
     key: "fvMessage",
     style: {
         color: "#000",
@@ -29,5 +29,12 @@ module.exports = [ {
             fontSize: 12
         },
         textAlign: "center"
+    }
+}, {
+    isId: true,
+    priority: 100201.001,
+    key: "fvActivityIndicator",
+    style: {
+        style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
     }
 } ];
