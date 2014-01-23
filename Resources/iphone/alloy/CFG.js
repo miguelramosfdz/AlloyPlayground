@@ -1,1 +1,0 @@
-module.exports={"dependencies":{"com.svobik7.DynamicList":"1.0","com.svobik7.SlideMenu":"1.0"}};
