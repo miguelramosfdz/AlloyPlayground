@@ -1,0 +1,5 @@
+<Alloy>
+	<Window id="smw" class="slideMenuContainer">
+		<Label>Content goes here!</Label>
+	</Window>
+</Alloy>

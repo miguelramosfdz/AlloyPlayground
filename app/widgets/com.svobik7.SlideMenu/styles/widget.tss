@@ -1,0 +1,7 @@
+".slideMenuContainer": {
+    top: 0,
+  	zIndex: 1,
+  	visible: false,
+  	height: Ti.UI.FILL,
+    backgroundColor: '#6f6f6f',
+}
