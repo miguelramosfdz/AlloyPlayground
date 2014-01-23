@@ -1,0 +1,14 @@
+/**
+ * 	ActivityIndicator
+ */
+"#dlActivityIndicator": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,	
+}
+"#dlActivityIndicator[platform=ios]": {
+	style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK,
+}
+"#dlActivityIndicator[platform=android]": {
+	style: Ti.UI.ActivityIndicatorStyle.DARK,
+}

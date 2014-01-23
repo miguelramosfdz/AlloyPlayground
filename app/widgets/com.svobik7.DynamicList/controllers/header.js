@@ -6,7 +6,6 @@ var options = {
 	pulledMsg : L('pvPulledMessage', 'Release to refresh'),
 	loadingMsg : L('pvLoadingMessage', 'Loading new content...'),
 	inProgress : false,
-	onRefresh : null,
 	isReady : false,
 	element : null,
 };
@@ -44,7 +43,7 @@ function getTimestamp() {
 }
 
 /**
- * Handles ListView's pull down action
+ * Handles element's pull down action
  */
 function pullListener(e) {
 
@@ -91,9 +90,37 @@ function pullendListener() {
 }
 
 /**
- * Creates refresh view
+ * Refreshes and loads new data
  */
-function createRefreshView() {
+function refresh() {
+
+	options.element.fireEvent('refresh', {
+		success : success,
+		error : error,
+	});
+}
+
+/**
+ * Successfull callback for refresh method
+ */
+function success(isDone) {
+
+	reset(isDone);
+}
+
+/**
+ * Fail callback for refresh method
+ */
+function error(msg) {
+
+	alert(msg);
+	reset(false);
+}
+
+/**
+ * Creates header view
+ */
+function createHeaderView() {
 
 	$.hvMessage.text = getMessage();
 	$.hvTimestamp.text = getTimestamp();
@@ -102,25 +129,9 @@ function createRefreshView() {
 }
 
 /**
- * Refreshes and loads new data
+ * Resets header to its default state
  */
-function refresh() {
-	try {
-
-		options.onRefresh(reset);
-
-	} catch(err) {
-
-		alert('Loading error! ' + err);
-		reset();
-
-	}
-}
-
-/**
- * Resets to its default state
- */
-function reset() {
+function reset(isDone) {
 
 	$.hvActivityIndicator.hide();
 
@@ -140,39 +151,65 @@ function reset() {
 }
 
 /**
- * Cancels event listeners so memory can be released
+ * Detaches header from element
  */
-function cancel() {
+function dettach() {
 
 	if (true === options.isReady) {
 
-		//options.element.removeEventListener('pull');
-		//options.element.removeEventListener('pullend');
+		options.element.removeEventListener('pull', pullListener);
+		options.element.removeEventListener('pullend', pullendListener);
+
+		options.element.pullView = null;
 
 		options.isReady = false;
 	}
+
 }
 
 /**
- * Inits header view
+ * Attaches header to element
  */
-function init(_options) {
+function attach() {
 
 	if (false === options.isReady) {
 
-		_.extend(options, _options);
+		options.element.addEventListener('pull', pullListener);
+		options.element.addEventListener('pullend', pullendListener);
 
-		if (false !== options.element && options.element.sectionCount) {
+		options.element.setPullView(createHeaderView());
 
-			var sections = options.element.getSections();
+		// Android workaround
+		//var sections = options.element.getSections();
+		//sections[0].setHeaderView(createheaderView());
 
-			sections[0].setHeaderView(createheaderView());
+		options.isReady = true;
+	}
 
-			options.element.addEventListener('pull', pullListener);
+}
 
-			options.element.addEventListener('pullend', pullendListener);
+/**
+ * Cancels header
+ */
+function cancel() {
 
-			options.isReady = true;
+	dettach();
+}
+
+/**
+ * Inits header
+ */
+function init(_element) {
+
+	if (false === options.isReady) {
+
+		_.extend(options, {
+			element : _element,
+		});
+
+		if (options.element) {
+
+			attach();
 		}
 	}
 }

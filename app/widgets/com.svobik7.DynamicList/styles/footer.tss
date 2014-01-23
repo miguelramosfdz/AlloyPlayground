@@ -1,4 +1,4 @@
-"#footerView" : {
+"#footerView": {
 	backgroundColor: 'transparent'
 },
 "#fvActivityIndicator": {

@@ -1,6 +1,0 @@
-<Alloy>
-	<View id="footerView" height="Ti.UI.SIZE">
-		<ActivityIndicator id="fvActivityIndicator" />
-		<Label id="fvMessage" />
-	</View>
-</Alloy>
