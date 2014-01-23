@@ -4,3 +4,6 @@ build
 npm-debug.log
 tmpResources
 build
+README
+LICENSE.txt
+.project
