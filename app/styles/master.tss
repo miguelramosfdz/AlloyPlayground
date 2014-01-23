@@ -1,3 +1,16 @@
+"Window": {
+	title: 'Main List',
+	width: 1400,
+},
 ".container": {
 	backgroundColor:"white"
+},
+".title": {
+	top: 10,
+},
+".subtitle": {
+	top: 30,
+},
+"#bookList": {
+	
 }

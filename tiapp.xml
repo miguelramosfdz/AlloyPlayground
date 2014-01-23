@@ -12,6 +12,7 @@
     <navbar-hidden>false</navbar-hidden>
     <analytics>true</analytics>
     <guid>fd1ce20c-116a-4232-bccf-5e0f58b080a6</guid>
+    <property name="ti.android.useLegacyWindow" type="bool">true</property>
     <property name="ti.ui.defaultunit" type="string">dp</property>
     <ios>
         <plist>

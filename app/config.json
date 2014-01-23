@@ -1,13 +1,14 @@
 {
-	"global": {}, 
-	"env:development": {}, 
-	"env:test": {}, 
-	"env:production": {}, 
-	"os:android": {},
-	"os:blackberry": {},
-	"os:ios": {},
-	"os:mobileweb": {},
+    "global": {},
+    "env:development": {},
+    "env:test": {},
+    "env:production": {},
+    "os:android": {},
+    "os:blackberry": {},
+    "os:ios": {},
+    "os:mobileweb": {},
     "dependencies": {
-        "com.svobik.InfiniteList": "0.2"
+        "com.svobik7.DynamicList": "1.0",
+        "com.svobik7.SlideMenu": "1.0"
     }
 }

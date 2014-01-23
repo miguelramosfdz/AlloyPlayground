@@ -1,5 +1,5 @@
 function openDetail(e) {
-	
+
 	// get the detail controller and window references
 	var controller = OS_IOS && Alloy.isTablet ? $.detail : Alloy.createController('detail');
 	var win = controller.getView();
@@ -22,7 +22,26 @@ if (OS_IOS && Alloy.isHandheld) {
 }
 
 if (OS_ANDROID) {
+
 	$.master.getView().open();
+
 } else {
+
+	$.leftMenu.init({
+		element : $.index,
+	});
+
+	$.rightMenu.init({
+		element : $.index,
+	});
+
+	$.leftMenu.on('slidemenu:open', function() {
+		alert('Left menu is open');
+	});
+
+	$.leftMenu.on('slidemenu:close', function() {
+		alert('Left menu is closed');
+	});
+
 	$.index.open();
 }

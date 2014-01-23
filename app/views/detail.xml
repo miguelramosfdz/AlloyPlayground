@@ -1,5 +1,6 @@
 <Alloy>
-	<Window class="container">
+	<Window id="detailWin" class="container">
 		<Label id="message" />
+		<Button id="rMenuBtn" title="Menu" top="-50dp">Menu</Button>
 	</Window>
 </Alloy>

@@ -12,6 +12,20 @@ function Controller() {
     arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
+    $.__views.leftMenu = Alloy.createWidget("com.svobik7.SlideMenu", "widget", {
+        id: "leftMenu",
+        position: "left",
+        width: "250",
+        duration: "250"
+    });
+    $.__views.leftMenu && $.addTopLevelView($.__views.leftMenu);
+    $.__views.rightMenu = Alloy.createWidget("com.svobik7.SlideMenu", "widget", {
+        id: "rightMenu",
+        position: "right",
+        width: "250",
+        duration: "100"
+    });
+    $.__views.rightMenu && $.addTopLevelView($.__views.rightMenu);
     if (true && Alloy.isTablet) {
         $.__views.master = Alloy.createController("master", {
             id: "master"
@@ -20,6 +34,9 @@ function Controller() {
             id: "detail"
         });
         $.__views.index = Ti.UI.iPad.createSplitWindow({
+            left: 0,
+            zIndex: 10,
+            width: Ti.UI.FILL,
             masterView: $.__views.master.getViewEx({
                 recurse: true
             }),
@@ -35,6 +52,9 @@ function Controller() {
             id: "master"
         });
         $.__views.index = Ti.UI.iOS.createNavigationWindow({
+            left: 0,
+            zIndex: 10,
+            width: Ti.UI.FILL,
             window: $.__views.master.getViewEx({
                 recurse: true
             }),
@@ -46,6 +66,18 @@ function Controller() {
     _.extend($, $.__views);
     $.master.on("detail", openDetail);
     true && Alloy.isHandheld && (Alloy.Globals.navgroup = $.index);
+    $.leftMenu.init({
+        element: $.index
+    });
+    $.rightMenu.init({
+        element: $.index
+    });
+    $.leftMenu.on("slidemenu:open", function() {
+        alert("Left menu is open");
+    });
+    $.leftMenu.on("slidemenu:close", function() {
+        alert("Left menu is closed");
+    });
     $.index.open();
     _.extend($, exports);
 }

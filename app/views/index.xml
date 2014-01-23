@@ -1,11 +1,15 @@
 <Alloy>
+	<!-- SlideMenu widget -->
+	<Widget src="com.svobik7.SlideMenu" id="leftMenu" position="left" width="250" duration="250" />
+	
+	<Widget src="com.svobik7.SlideMenu" id="rightMenu" position="right" width="250" duration="100" />
 	
 	<!-- For iOS iPad -->
-    <SplitWindow id="index" platform="ios" formFactor="tablet">
-        <Require src="master" id="master" />
-        <Require src="detail" id="detail" />
-    </SplitWindow>
-        
+	<SplitWindow id="index" platform="ios" formFactor="tablet">
+		<Require src="master" id="master" />
+		<Require src="detail" id="detail" />
+	</SplitWindow>
+	
 	<!-- For iOS iPhone -->
 	<NavigationWindow id="index" platform="ios" formFactor="handheld">
 		<Require src="master" id="master" />
@@ -13,5 +17,4 @@
 	
 	<!-- For Android -->
 	<Require src="master" id="master" platform="android" />
-	
 </Alloy>

@@ -1,5 +1,29 @@
 <Alloy>
-	<Window class="container">
-		<Widget src="com.svobik.InfiniteList" id="ilist"  />
+	<Collection src="Book" />
+	<Window id="masterWin" class="container">
+
+		<!-- DynamicList widget -->
+		<Widget src="com.svobik7.DynamicList" id="dlist" />
+
+		<!-- ListView -->
+		<ListView id="bookList" defaultItemTemplate="bookDefault" dataFilter="doFilter" onInit="doInit" onRefresh="doRefresh" onNext="doNext" onItemclick="doItemClick">
+
+			<!-- ListView item templates -->
+			<Templates>
+				<ItemTemplate name="bookDefault" height="60">
+					<Label bindId="title" class="title" />
+					<Label bindId="subtitle" class="subtitle" />
+				</ItemTemplate>
+			</Templates>
+
+			<!-- ListView section -->
+			<ListSection id="bookListSection" dataCollection="Book">
+				<ListItem template="bookDefault" title:text="{title}" subtitle:text="{subtitle}" />
+			</ListSection>
+
+		</ListView>
+		
+		<Button id="lMenuBtn" title="Menu" top="-50dp">Menu</Button>
+		<Button id="rMenuBtn" title="Menu" top="-50dp">Menu</Button>
 	</Window>
 </Alloy>

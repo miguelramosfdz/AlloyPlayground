@@ -3,3 +3,13 @@ function init(id) {
 }
 
 exports.init = init;
+
+// Left & Right SlideMenu
+function rMenuTapListener(e) {
+
+	Alloy.Globals.rightMenu.toggle(e);
+}
+
+$.rMenuBtn.addEventListener('click', rMenuTapListener);
+
+$.detailWin.setRightNavButton($.rMenuBtn);
